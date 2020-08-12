@@ -16,7 +16,42 @@
             #myBar {
                 width: 0%;
                 height: 30px;
-                background-color: green;
+                background-color: rgb(119, 18, 214);
+            }
+            .lsidebar {
+                height: 100%; /* Full-height: remove this if you want "auto" height */
+                width: 250px; /* Set the width of the sidebar */
+                position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+                z-index: 1; /* Stay on top */
+                top: 0; /* Stay at the top */
+                left: 0;
+                background-color: white; /* Black */
+                overflow-x: hidden; /* Disable horizontal scroll */
+            }
+            .rsidebar {
+                height: 100%; /* Full-height: remove this if you want "auto" height */
+                width: 250px; /* Set the width of the sidebar */
+                position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+                z-index: 1; /* Stay on top */
+                top: 0; /* Stay at the top */
+                right: 0;
+                background-color: white; /* Black */
+                overflow-x: hidden; /* Disable horizontal scroll */
+            }
+            .main {
+                margin-left:242px; /* Same as the width of the sidebar */
+                margin-top: 104px;
+                margin-right: 242px;
+                height: 756px;
+                padding: 0px 0px;
+                background-color: #8D715C;
+                font-size: 20px;
+            }
+            .brownfill{
+                background-color: #8C5500;
+            }
+            .smallertext{
+                font-size: 16px;
             }
         </style>
 
@@ -28,19 +63,25 @@
     <title>HTML Tester</title>
 </head>
 <body>
+    <div class="main">
+    <div><img src="Testsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="lsidebar"></div>
+    <div><img src="Rightsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="rsidebar"></div>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> <!-- This part is unnecessary-->
-    <strong>    Type in a hebrew word/words (no spaces) and select the books you want to search. The second set of input/buttons is to make piecharts based on word frequencies in Chumash, I'll probably take that out    </strong>
+    <strong>    Type in a hebrew word/words (no spaces) and select the books you want to search.</strong>
     <br>
-    <label for="names">Key word:</label>
-    <input type="text" id="names" name="names" value ="לאהובנ"><br>
-    Choose which books to include:
-<div id = "buttons 1">  
-    <input type="checkbox" id="1Genesis" name="1Genesis" value=50><label for="1Genesis">Genesis</label>
+    <label for="names"><i>Key word:</i></label>
+    <input type="text" id="names" name="names" value ="לאהובנ" class="brownfill"><br>
+    <strong>Choose which books to include: </strong> <br>
+    <input type="checkbox" id="Wholetorah" onclick="checkTorah()"><label for="WholeTorah">All of Torah</label>
+    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><label for="Wholeproph">All of Prophets</label>
+    <input type="checkbox" id="Wholewrit" onclick="checkWritings()"><label for="Wholewrit">All of Writings</label>
+<div id = "buttons 1" class="smallertext">  
+    Torah: <input type="checkbox" id="1Genesis" name="1Genesis" value=50><label for="1Genesis">Genesis</label>
     <input type="checkbox" id="1Exodus" name="1Exodus" value=40><label for="1Exodus">Exodus</label>
     <input type="checkbox" id="1Leviticus" name="1Leviticus" value=27><label for="1Leviticus">Leviticus</label>
     <input type="checkbox" id="1Numbers" name="1Numbers" value=36><label for="1Numbers">Numbers</label>
     <input type="checkbox" id="1Deuteronomy" name="1Deuteronomy" value=34><label for="1Deuteronomy">Deuteronomy</label><br>
-    <input type="checkbox" id="1Joshua" name="1Joshua" value=24><label for="1Joshua">Joshua</label>
+    Prophets: <input type="checkbox" id="1Joshua" name="1Joshua" value=24><label for="1Joshua">Joshua</label>
     <input type="checkbox" id="1Judges" name="1Judges" value=21><label for="1Judges">Judges</label>
     <input type="checkbox" id="1Samuel I" name="1Samuel I" value=31><label for="1Samuel I">Samuel I</label>
     <input type="checkbox" id="1Samuel II" name="1Samuel II" value=24><label for="1Samuel II">Samuel II</label>
@@ -60,8 +101,8 @@
     <input type="checkbox" id="1Zephaniah" name="1Zephaniah" value=3><label for="1Zephaniah">Zephaniah</label>
     <input type="checkbox" id="1Haggai" name="1Haggai" value=2><label for="1Haggai">Haggai</label>
     <input type="checkbox" id="1Zechariah" name="1Zechariah" value=14><label for="1Zechariah">Zechariah</label>
-    <input type="checkbox" id="1Malachi" name="1Malachi" value=4><label for="1Malachi">Malachi</label><br>
-    <input type="checkbox" id="1Psalms" name="1Psalms" value=150><label for="1Psalms">Psalms</label>
+    <input type="checkbox" id="1Malachi" name="1Malachi" value=3><label for="1Malachi">Malachi</label><br>
+    Writings: <input type="checkbox" id="1Psalms" name="1Psalms" value=150><label for="1Psalms">Psalms</label>
     <input type="checkbox" id="1Proverbs" name="1Proverbs" value=31><label for="1Proverbs">Proverbs</label>
     <input type="checkbox" id="1Job" name="1Job" value=42><label for="1Job">Job</label>
     <input type="checkbox" id="1SoS" name="1SoS" value=8><label for="1SoS">Song of Songs</label>
@@ -77,7 +118,7 @@
 </div>
 
     <br>
-    <button id="save">Find Psukim</button><p id = "searching"></p>
+    <button id="save" class="brownfill">Find Psukim</button><p id = "searching"></p>
     <div id = "loadbar"></div>
     <p></p>
     <div id = "vary">
@@ -85,7 +126,8 @@
     <div id = "artProduct" class = "alignment">
     </div>
     <script src="DropdownNameArt.js"></script>
-    <br>
+</div>
+    <!--<br>
     <br>
     <label for="keyword">Key word:</label>
     <input type="text" id="keyword" name="keyword"><br>
@@ -96,6 +138,6 @@
     <div id="piechartHeb">
         <script type="text/javascript" src="pentChart.js"></script>
     </div>
-
+-->
 </body>
 </html>
