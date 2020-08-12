@@ -65,15 +65,15 @@ function noresults(){
     if (document.getElementById("versesdropdown").innerHTML == ""){
         item.innerHTML = "Sorry, there don't seem to be any results for that search"
     }
-    else if (item.children[item.children.length-1].id != "Vowel"){
+    else if (item.children[item.children.length-1].id != "countresults"){
             item.innerHTML += "<button id = \"noVowel\" onclick = \"fA2(this.parentElement.children[1].value)\">Render Without Vowels</button>"
             item.innerHTML += "<button id = \"Vowel\" onclick = \"formatArt(this.parentElement.children[1].value)\">Render With Vowels</button>"
             var resultCount = item.children[1].children.length
-            if (resultCount = 1) {
-                item.innerHTML += "<br> Sorry, there was only one result, better luck next time!"
+            if (resultCount == 1) {
+                item.innerHTML += "<br> <p id=\"countresults\"> Sorry, there was only one result. I hope it's a good one!</p>"
             }
             if (resultCount > 1){
-                item.innerHTML += "<br> There were a whopping " + String(resultCount) + " results! Yay!"
+                item.innerHTML += "<br> <p id=\"countresults\"> There were a whopping " + String(resultCount) + " results! Yay!</p>"
             }
     }
 
