@@ -24,6 +24,7 @@ function resetbar(){
 
 function nameSearch(){
     //var lookup = "לאהובנ";
+    document.getElementById("save").disabled = true;
     document.getElementById("artProduct").innerHTML = ""
     document.getElementById("vary").innerHTML = ""
     var lookup = document.getElementById("names").value;
@@ -37,7 +38,7 @@ function nameSearch(){
         if (tbuttons[i].checked){
             numbooks += Number(tbuttons[i].value)
         }
-        if (i == 8 || i == 51){ i+=1}
+        if (i == 8 || i == 52 || i == 39){ i+=1}
     }
     if (numbooks == 0.0){
         alert("Please select some books to search");
@@ -48,13 +49,14 @@ function nameSearch(){
     document.getElementById("loadbar").innerHTML = "<div id=\"myProgress\"><div id=\"myBar\"></div></div>"
     for (var i = 0; i<80; i+=2){
         if (tbuttons[i].checked){
+            console.log(String(i)+tbuttons[i+1].innerText)
             for (var j = 0; j<Number(tbuttons[i].value);j++){
                 var fillVal = 100/numbooks
                 hebTest(lookup,j+1,tbuttons[i+1].innerText,fillVal);
             }
         }
 
-        if (i == 8 || i == 51){ i+=1}
+        if (i == 8 || i == 52 || i == 39){ i+=1}
     }
 }
 
@@ -65,19 +67,30 @@ function noresults(){
         item.innerHTML = "Sorry, there don't seem to be any results for that search"
     }
     else if (item.children[item.children.length-1].id != "countresults"){
-            item.innerHTML += "<br> <button id = \"noVowel\" onclick = \"fA2(this.parentElement.children[1].value)\" class=\"brownfill\">Render Without Vowels</button>"
-            item.innerHTML += "<button id = \"Vowel\" onclick = \"formatArt(this.parentElement.children[1].value)\" class=\"brownfill\">Render With Vowels</button>"
-            var resultCount = item.children[1].children.length
-            if (resultCount == 1) {
-                item.innerHTML += "<br> <p id=\"countresults\"> Sorry, there was only one result. I hope it's a good one!</p>"
-            }
-            if (resultCount > 1){
-                item.innerHTML += "<br> <p id=\"countresults\"> There were a whopping " + String(resultCount) + " results! Yay!</p>"
-            }
+        item.innerHTML += "<br> <button id = \"noVowel\" onclick = \"fA2(this.parentElement.children[1].value)\" class=\"brownfill\">Render Without Vowels</button>"
+        item.innerHTML += "<button id = \"Vowel\" onclick = \"formatArt(this.parentElement.children[1].value)\" class=\"brownfill\">Render With Vowels</button>"
+        //item.innerHTML += "<input type=\"button\" hreftarget=\"_blank\" onclick=\"location.href=\'https://google.com\';\" value=\"Go to Google\" />"
+        //<button title="button title" class="action primary tocart" onclick=" window.open('http://www.google.com', '_blank'); return false;">Google</button>
+        item.innerHTML += "<button id = \"goSefaria\" button title=\"goverse\" class=\"action primary tocart brownfill\" onclick = \" openLink(); return false;\">Go to this verse on Sefaria</button>"
+        //item.innerHTML += "<button id = \"goSefaria\" button title=\"goverse\" class=\"action primary tocart\" onclick = \" window.open('https://www.sefaria.org/" + url + "', '_blank'); return false;\">Go to this verse on Sefaria</button>"
+        var resultCount = item.children[1].children.length
+        if (resultCount == 1) {
+            item.innerHTML += "<br> <p id=\"countresults\"> Sorry, there was only one result. I hope it's a good one!</p>"
+        }
+        if (resultCount > 1){
+            item.innerHTML += "<br> <p id=\"countresults\"> There were a whopping " + String(resultCount) + " results! Yay!</p>"
+        }
+
     }
+    document.getElementById("save").disabled = false;
 
 }
 
+function openLink(){
+    URLval = document.getElementById("versesdropdown").value.split(".");
+    window.open('https://www.sefaria.org/' + URLval[1] + "." + URLval[2] + '.' + URLval[3], '_blank');
+    return false;
+}
 
 function contained(str1, verse){
     var str = "";
@@ -209,21 +222,48 @@ function contained2(str1, verse){
 
 function checkTorah(){
     tbuttons = document.getElementById('buttons 1').children;
-    for (var i = 0; i<9; i+=2){
-        tbuttons[i].checked = true
+    if (document.getElementById("Wholetorah").checked == true){
+        for (var i = 0; i<9; i+=2){
+            tbuttons[i].checked = true
+        }
+    }
+    else{
+        for (var i = 0; i<9; i+=2){
+            tbuttons[i].checked = false
+        }
     }
 }
 
 function checkProphets(){
     tbuttons = document.getElementById('buttons 1').children;
-    for (var i = 11; i<52; i+=2){
-        tbuttons[i].checked = true
+    if (document.getElementById("Wholeproph").checked == true){
+        for (var i = 11; i<53; i+=2){
+            tbuttons[i].checked = true
+            if (i==39){
+                i++
+            }
+        }
+    }
+    else {
+        for (var i = 11; i<53; i+=2){
+            tbuttons[i].checked = false
+            if (i==39){
+                i++
+            }
+        }
     }
 }
 
 function checkWritings(){
     tbuttons = document.getElementById('buttons 1').children;
-    for (var i = 54; i<79; i+=2){
-        tbuttons[i].checked = true
+    if (document.getElementById("Wholewrit").checked == true){
+        for (var i = 55; i<80; i+=2){
+            tbuttons[i].checked = true
+        }
+    }
+    else {
+        for (var i = 55; i<80; i+=2){
+            tbuttons[i].checked = false
+        }
     }
 }

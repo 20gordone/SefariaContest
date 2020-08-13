@@ -20,9 +20,9 @@
             }
             .lsidebar {
                 height: 100%; /* Full-height: remove this if you want "auto" height */
-                width: 250px; /* Set the width of the sidebar */
+                width: 13%;/*250px; /* Set the width of the sidebar */
                 position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-                z-index: 1; /* Stay on top */
+                z-index: 3; /* Stay on top */
                 top: 0; /* Stay at the top */
                 left: 0;
                 background-color: white; /* Black */
@@ -30,24 +30,50 @@
             }
             .rsidebar {
                 height: 100%; /* Full-height: remove this if you want "auto" height */
-                width: 250px; /* Set the width of the sidebar */
+                width: 13%; /* Set the width of the sidebar */
                 position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-                z-index: 1; /* Stay on top */
+                z-index: 3; /* Stay on top */
                 top: 0; /* Stay at the top */
                 right: 0;
                 background-color: white; /* Black */
                 overflow-x: hidden; /* Disable horizontal scroll */
             }
+            .topbar {
+                position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+                z-index: 2; /* Stay on top */
+                margin-top: -10%;
+                margin-left: -5%;
+                height: 19.1%;
+                width: 100%;
+                padding: 0px 0px;
+                background-color: white;/* #8D715C; */
+                overflow-x: hidden; /* Disable horizontal scroll */
+            }
+            .lowbar {
+                position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+                z-index: 2; /* Stay on top */
+                margin-left: -5%;
+                height: 9.2%;
+                width: 100%;
+                bottom: 0;
+                padding: 0px 0px;
+                background-color: white;/* #8D715C; */
+                overflow-x: hidden; /* Disable horizontal scroll */
+            }
             .main {
-                margin-left:242px; /* Same as the width of the sidebar */
-                margin-top: 104px;
-                margin-right: 242px;
-                height: 756px;
+                z-index: 1;
+                margin-left: 14%; /* Same as the width of the sidebar */
+                margin-top: 6%;
+                margin-right: 14%;
+                margin-bottom: 9.2%;
+                height: 100%;
                 padding: 0px 0px;
                 background-color: #8D715C;
                 font-size: 20px;
+                color: gold;
             }
             .brownfill{
+                color: gold;
                 background-color: #8C5500;
             }
             .smallertext{
@@ -62,19 +88,20 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>HTML Tester</title>
 </head>
-<body>
-    <div class="main">
-    <div><img src="Testsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="lsidebar"></div>
-    <div><img src="Rightsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="rsidebar"></div>
+<div><img src="Testsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="lsidebar"></div>
+<div><img src="Rightsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="rsidebar"></div>
+<div class="topbar"></div>
+
+<body class="main">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> <!-- This part is unnecessary-->
-    <strong>    Type in a hebrew word/words (no spaces) and select the books you want to search.</strong>
+    <strong>Type in a Hebrew word/words (no spaces) and select the books you want to search.</strong>
     <br>
     <label for="names"><i>Key word:</i></label>
     <input type="text" id="names" name="names" value ="לאהובנ" class="brownfill"><br>
     <strong>Choose which books to include: </strong> <br>
-    <input type="checkbox" id="Wholetorah" onclick="checkTorah()"><label for="WholeTorah">All of Torah</label>
-    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><label for="Wholeproph">All of Prophets</label>
-    <input type="checkbox" id="Wholewrit" onclick="checkWritings()"><label for="Wholewrit">All of Writings</label>
+    <input type="checkbox" id="Wholetorah" onclick="checkTorah()"><label for="WholeTorah">All Torah</label>
+    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><label for="Wholeproph">All Prophets</label>
+    <input type="checkbox" id="Wholewrit" onclick="checkWritings()"><label for="Wholewrit">All Writings</label>
 <div id = "buttons 1" class="smallertext">  
     Torah: <input type="checkbox" id="1Genesis" name="1Genesis" value=50><label for="1Genesis">Genesis</label>
     <input type="checkbox" id="1Exodus" name="1Exodus" value=40><label for="1Exodus">Exodus</label>
@@ -95,7 +122,7 @@
     <input type="checkbox" id="1Amos" name="1Amos" value=9><label for="1Amos">Amos</label>
     <input type="checkbox" id="1Obadiah" name="1Obadiah" value=1><label for="1Obadiah">Obadiah</label>
     <input type="checkbox" id="1Jonah" name="1Jonah" value=4><label for="1Jonah">Jonah</label>
-    <input type="checkbox" id="1Micah" name="1Micah" value=7><label for="1Micah">Micah</label>
+    <input type="checkbox" id="1Micah" name="1Micah" value=7><label for="1Micah">Micah</label><br>
     <input type="checkbox" id="1Nahum" name="1Nahum" value=3><label for="1Nahum">Nahum</label>
     <input type="checkbox" id="1Habakkuk" name="1Habakkuk" value=3><label for="1Habakkuk">Habakkuk</label>
     <input type="checkbox" id="1Zephaniah" name="1Zephaniah" value=3><label for="1Zephaniah">Zephaniah</label>
@@ -115,7 +142,6 @@
     <input type="checkbox" id="1Nehemiah" name="1Nehemiah" value=13><label for="1Nehemiah">Nehemiah</label>
     <input type="checkbox" id="1Chronicles I" name="1Chronicles I" value=29><label for="1Chronicles I">Chronicles I</label>
     <input type="checkbox" id="1Chronicles II" name="1Chronicles II" value=36><label for="1Chronicles II">Chronicles II</label>
-</div>
 
     <br>
     <button id="save" class="brownfill">Find Psukim</button><p id = "searching"></p>
@@ -140,4 +166,6 @@
     </div>
 -->
 </body>
+<div class="lowbar"></div>
+
 </html>
