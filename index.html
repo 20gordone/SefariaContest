@@ -43,7 +43,7 @@
                 z-index: 2; /* Stay on top */
                 margin-top: -10%;
                 margin-left: -5%;
-                height: 19.1%;
+                height: 19.6%;
                 width: 100%;
                 padding: 0px 0px;
                 background-color: white;/* #8D715C; */
@@ -79,6 +79,41 @@
             .smallertext{
                 font-size: 16px;
             }
+            .accordion {
+                background-color: #8C5500;
+                color: gold;
+                cursor: pointer;
+                padding: 18px;
+                border: none;
+                text-align: center;
+                outline: none;
+                font-size: 20px;
+                transition: 0.4s;
+                width: 30%;
+            }
+
+            .active, .accordion:hover {
+                background-color: rgb(218, 128, 12); 
+            }
+
+            .panel {
+                padding: 0 18px;
+                display: none;
+                background-color: rgb(194, 112, 18);
+                overflow: hidden;
+            }
+            .lacc{
+                display: inline;
+            }
+            .cacc{
+                margin-left: 3%;
+                display: inline;
+            }
+            .racc{
+                margin-left: 3%;
+                display: inline;
+            }
+
         </style>
 
 <head>
@@ -91,59 +126,75 @@
 <div><img src="Testsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="lsidebar"></div>
 <div><img src="Rightsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="rsidebar"></div>
 <div class="topbar"></div>
+<div class="lowbar"></div>
 
 <body class="main">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> <!-- This part is unnecessary-->
-    <strong>Type in a Hebrew word/words (no spaces) and select the books you want to search.</strong>
+    <p id="introp">Type in a Hebrew word/words (no spaces) and select the books you want to search.</p>
     <br>
     <label for="names"><i>Key word:</i></label>
     <input type="text" id="names" name="names" value ="לאהובנ" class="brownfill"><br>
-    <strong>Choose which books to include: </strong> <br>
-    <input type="checkbox" id="Wholetorah" onclick="checkTorah()"><label for="WholeTorah">All Torah</label>
-    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><label for="Wholeproph">All Prophets</label>
-    <input type="checkbox" id="Wholewrit" onclick="checkWritings()"><label for="Wholewrit">All Writings</label>
-<div id = "buttons 1" class="smallertext">  
-    Torah: <input type="checkbox" id="1Genesis" name="1Genesis" value=50><label for="1Genesis">Genesis</label>
-    <input type="checkbox" id="1Exodus" name="1Exodus" value=40><label for="1Exodus">Exodus</label>
-    <input type="checkbox" id="1Leviticus" name="1Leviticus" value=27><label for="1Leviticus">Leviticus</label>
-    <input type="checkbox" id="1Numbers" name="1Numbers" value=36><label for="1Numbers">Numbers</label>
-    <input type="checkbox" id="1Deuteronomy" name="1Deuteronomy" value=34><label for="1Deuteronomy">Deuteronomy</label><br>
-    Prophets: <input type="checkbox" id="1Joshua" name="1Joshua" value=24><label for="1Joshua">Joshua</label>
-    <input type="checkbox" id="1Judges" name="1Judges" value=21><label for="1Judges">Judges</label>
-    <input type="checkbox" id="1Samuel I" name="1Samuel I" value=31><label for="1Samuel I">Samuel I</label>
-    <input type="checkbox" id="1Samuel II" name="1Samuel II" value=24><label for="1Samuel II">Samuel II</label>
-    <input type="checkbox" id="1Kings I" name="1Kings I" value=22><label for="1Kings I">Kings I</label>
-    <input type="checkbox" id="1Kings II" name="1Kings II" value=25><label for="1Kings II">Kings II</label>
-    <input type="checkbox" id="1Isaiah" name="1Isaiah" value=66><label for="1Isaiah">Isaiah</label>
-    <input type="checkbox" id="1Jeremiah" name="1Jeremiah" value=52><label for="1Jeremiah">Jeremiah</label>
-    <input type="checkbox" id="1Ezekiel" name="1Ezekiel" value=48><label for="1Ezekiel">Ezekiel</label>
-    <input type="checkbox" id="1Hosea" name="1Hosea" value=14><label for="1Hosea">Hosea</label>
-    <input type="checkbox" id="1Joel" name="1Joel" value=3><label for="1Joel">Joel</label>
-    <input type="checkbox" id="1Amos" name="1Amos" value=9><label for="1Amos">Amos</label>
-    <input type="checkbox" id="1Obadiah" name="1Obadiah" value=1><label for="1Obadiah">Obadiah</label>
-    <input type="checkbox" id="1Jonah" name="1Jonah" value=4><label for="1Jonah">Jonah</label>
-    <input type="checkbox" id="1Micah" name="1Micah" value=7><label for="1Micah">Micah</label><br>
-    <input type="checkbox" id="1Nahum" name="1Nahum" value=3><label for="1Nahum">Nahum</label>
-    <input type="checkbox" id="1Habakkuk" name="1Habakkuk" value=3><label for="1Habakkuk">Habakkuk</label>
-    <input type="checkbox" id="1Zephaniah" name="1Zephaniah" value=3><label for="1Zephaniah">Zephaniah</label>
-    <input type="checkbox" id="1Haggai" name="1Haggai" value=2><label for="1Haggai">Haggai</label>
-    <input type="checkbox" id="1Zechariah" name="1Zechariah" value=14><label for="1Zechariah">Zechariah</label>
-    <input type="checkbox" id="1Malachi" name="1Malachi" value=3><label for="1Malachi">Malachi</label><br>
-    Writings: <input type="checkbox" id="1Psalms" name="1Psalms" value=150><label for="1Psalms">Psalms</label>
-    <input type="checkbox" id="1Proverbs" name="1Proverbs" value=31><label for="1Proverbs">Proverbs</label>
-    <input type="checkbox" id="1Job" name="1Job" value=42><label for="1Job">Job</label>
-    <input type="checkbox" id="1SoS" name="1SoS" value=8><label for="1SoS">Song of Songs</label>
-    <input type="checkbox" id="1Ruth" name="1Ruth" value=4><label for="1Ruth">Ruth</label>
-    <input type="checkbox" id="1Lamentations" name="1Lamentations" value=5><label for="1Lamentations">Lamentations</label>
-    <input type="checkbox" id="1Ecclesiastes" name="1Ecclesiastes" value=12><label for="1Ecclesiastes">Ecclesiastes</label>
-    <input type="checkbox" id="1Esther" name="1Esther" value=10><label for="1Esther">Esther</label>
-    <input type="checkbox" id="1Daniel" name="1Daniel" value=12><label for="1Daniel">Daniel</label>
-    <input type="checkbox" id="1Ezra" name="1Ezra" value=10><label for="1Ezra">Ezra</label>
-    <input type="checkbox" id="1Nehemiah" name="1Nehemiah" value=13><label for="1Nehemiah">Nehemiah</label>
-    <input type="checkbox" id="1Chronicles I" name="1Chronicles I" value=29><label for="1Chronicles I">Chronicles I</label>
-    <input type="checkbox" id="1Chronicles II" name="1Chronicles II" value=36><label for="1Chronicles II">Chronicles II</label>
+    <strong>Choose which books to include: </strong> 
 
+<div>
+    <div class="lacc">
+        <button class="accordion" id="Include Torah"><input type="checkbox" id="Wholetorah" onclick="checkTorah()"><strong>Include Torah (click to expand)</strong></button>
+        <div id="tormenu" class="panel">
+            <strong>Torah: </strong><input type="checkbox" id="Genesis" name="1Genesis" value=50>Genesis</input>
+            <input type="checkbox" id="1Exodus" name="Exodus" value=40>Exodus</input>
+            <input type="checkbox" id="1Leviticus" name="Leviticus" value=27>Leviticus</input>
+            <input type="checkbox" id="1Numbers" name="Numbers" value=36>Numbers</input>
+            <input type="checkbox" id="1Deuteronomy" name="Deuteronomy" value=34>Deuteronomy</input>
+        </div>
+    </div>
+
+<div class="cacc">
+    <button class="accordion" id="Include Prophets">
+    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><strong>Include Prophets (click to expand)</strong></input></button>
+    <div id="promenu" class="panel">
+      <strong>Prophets: </strong> <input type="checkbox" id="1Joshua" name="Joshua" value =24>Joshua</input>
+        <input type="checkbox" id="1Judges" name="Judges" value=21>Judges</input>
+        <input type="checkbox" id="1Samuel I" name="Samuel I" value=31>Samuel I</input>
+        <input type="checkbox" id="1Samuel II" name="Samuel II" value=24>Samuel II</input>
+        <input type="checkbox" id="1Kings I" name="Kings I" value=22>Kings I</input>
+        <input type="checkbox" id="1Kings II" name="Kings II" value=25>Kings II</input>
+        <input type="checkbox" id="1Isaiah" name="Isaiah" value=66>Isaiah</input>
+        <input type="checkbox" id="1Jeremiah" name="Jeremiah" value=52>Jeremiah</input>
+        <input type="checkbox" id="1Ezekiel" name="Ezekiel" value=48>Ezekiel</input>
+        <input type="checkbox" id="1Hosea" name="Hosea" value=14>Hosea</input>
+        <input type="checkbox" id="1Joel" name="Joel" value=3>Joel</input>
+        <input type="checkbox" id="1Amos" name="Amos" value=9>Amos</input>
+        <input type="checkbox" id="1Obadiah" name="Obadiah" value=1>Obadiah</input>
+        <input type="checkbox" id="1Jonah" name="Jonah" value=4>Jonah</input>
+        <input type="checkbox" id="1Micah" name="Micah" value=7>Micah</input>
+        <input type="checkbox" id="1Nahum" name="Nahum" value=3>Nahum</input>
+        <input type="checkbox" id="1Habakkuk" name="Habakkuk" value=3>Habakkuk</input>
+        <input type="checkbox" id="1Zephaniah" name="Zephaniah" value=3>Zephaniah</input>
+        <input type="checkbox" id="1Haggai" name="Haggai" value=2>Haggai</input>
+        <input type="checkbox" id="1Zechariah" name="Zechariah" value=14>Zechariah</input>
+        <input type="checkbox" id="1Malachi" name="Malachi" value=3>Malachi</input>
+    </div>
+</div>
+<div class="racc">
+    <button class="accordion" id="Include Writings"><input type="checkbox" id="Wholewrit" onclick="checkWritings()"><strong>Include Writings (click to expand)</strong></button>
+    <div id="writmenu" class="panel">
+      <strong>Writings:</strong> <input type="checkbox" id="1Psalms" name="Psalms" value=150>Psalms</input>
+        <input type="checkbox" id="1Proverbs" name="Proverbs" value=31>Proverbs</input>
+        <input type="checkbox" id="1Job" name="Job" value=42>Job</input>
+        <input type="checkbox" id="1SoS" name="Song of Songs" value=8>Song of Songs</input>
+        <input type="checkbox" id="1Ruth" name="Ruth" value=4>Ruth</input>
+        <input type="checkbox" id="1Lamentations" name="Lamentations" value=5>Lamentations</input>
+        <input type="checkbox" id="1Ecclesiastes" name="Ecclesiastes" value=12>Ecclesiastes</input>
+        <input type="checkbox" id="1Esther" name="Esther" value=10>Esther</input>
+        <input type="checkbox" id="1Daniel" name="Daniel" value=12>Daniel</input>
+        <input type="checkbox" id="1Ezra" name="Ezra" value=10>Ezra</input>
+        <input type="checkbox" id="1Nehemiah" name="Nehemiah" value=13>Nehemiah</input>
+        <input type="checkbox" id="1Chronicles I" name="Chronicles I" value=29>Chronicles I</input>
+        <input type="checkbox" id="1Chronicles II" name="Chronicles II" value=36>Chronicles II</input>
+    </div>
+</div>
+</div>
     <br>
+<div class="smallertext">
     <button id="save" class="brownfill">Find Psukim</button><p id = "searching"></p>
     <div id = "loadbar"></div>
     <p></p>
@@ -151,10 +202,11 @@
     </div>
     <div id = "artProduct" class = "alignment">
     </div>
-    <script src="DropdownNameArt.js"></script>
+    <script src="NameArt.js"></script>
 </div>
     <!--<br>
     <br>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
     <label for="keyword">Key word:</label>
     <input type="text" id="keyword" name="keyword"><br>
     <button id="submit">Search Torah English</button>
@@ -166,6 +218,5 @@
     </div>
 -->
 </body>
-<div class="lowbar"></div>
 
 </html>
