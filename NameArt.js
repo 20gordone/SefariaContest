@@ -81,22 +81,14 @@ function nameSearch(){
         return;
     }
     var numbooks = 0.0
-    currentdropdown = document.getElementById('tormenu').children;
-    for (var i = 1; i<currentdropdown.length;i+= 1){
-        if (currentdropdown[i].checked){
-            numbooks += Number(currentdropdown[i].value)
+    var sections = ["tormenu","promenu","writmenu"]
+    for (var x=0;x<3;x++){
+        currentdropdown = document.getElementById(sections[x]).children;
+        for (var i = 1; i<currentdropdown.length;i+= 1){
+            if (currentdropdown[i].checked){
+                numbooks += Number(currentdropdown[i].value)
+            }
         }
-    }
-    currentdropdown = document.getElementById('promenu').children;
-    for (i = 1; i<currentdropdown.length;i+= 1){
-        if (currentdropdown[i].checked){
-            numbooks += Number(currentdropdown[i].value)
-        }    }
-    currentdropdown = document.getElementById('writmenu').children;
-    for (i = 1; i<currentdropdown.length;i+= 1){
-        if (currentdropdown[i].checked){
-            numbooks += Number(currentdropdown[i].value)
-        }    
     }
     if (numbooks == 0.0){
         alert("Please select some books to search");
@@ -106,29 +98,14 @@ function nameSearch(){
     document.getElementById("searching").textContent = "Searching..."
     document.getElementById("loadbar").innerHTML = "<div id=\"myProgress\"><div id=\"myBar\"></div></div>"
     currentdropdown = document.getElementById('tormenu').children;
-    for (i = 1; i<currentdropdown.length;i+= 1){
-        if (currentdropdown[i].checked){
-            for (var j = 0; j<Number(currentdropdown[i].value);j++){
-                var fillVal = 100/numbooks
-                hebTest(lookup,j+1,currentdropdown[i].name,fillVal);
-            }
-        }
-    }
-    currentdropdown = document.getElementById('promenu').children;
-    for (i = 1; i<currentdropdown.length;i+= 1){
-        if (currentdropdown[i].checked){
-            for (var j = 0; j<Number(currentdropdown[i].value);j++){
-                var fillVal = 100/numbooks
-                hebTest(lookup,j+1,currentdropdown[i].name,fillVal);
-            }
-        }
-    }
-    currentdropdown = document.getElementById('writmenu').children;
-    for (i = 1; i<currentdropdown.length;i+= 1){
-        if (currentdropdown[i].checked){
-            for (var j = 0; j<Number(currentdropdown[i].value);j++){
-                var fillVal = 100/numbooks
-                hebTest(lookup,j+1,currentdropdown[i].name,fillVal);
+    for (var x=0;x<3;x++){
+        currentdropdown = document.getElementById(sections[x]).children;
+        for (i = 1; i<currentdropdown.length;i+= 1){
+            if (currentdropdown[i].checked){
+                for (var j = 0; j<Number(currentdropdown[i].value);j++){
+                    var fillVal = 100/numbooks
+                    hebTest(lookup,j+1,currentdropdown[i].name,fillVal);
+                }
             }
         }
     }
@@ -211,7 +188,7 @@ function formatArt(sources){
     var book = source[1];
     var chapter = source[2];
     var verse = source[3];
-    var artPerek = jQuery.getJSON( "https://www.sefaria.org/api/texts/" + book + "." + chapter, function(data) {
+    var artPerek = jQuery.getJSON("https://www.sefaria.org/api/texts/" + book + "." + chapter, function(data) {
         artPasuk = artPerek.responseJSON.he[parseInt(verse)-1]
         artPasuk = artPasuk.substring(0,artPasuk.indexOf("׃"))
         var temp = ""
@@ -227,10 +204,23 @@ function formatArt(sources){
         for (var i = 2; i< letInds.length;i += 2){
             imageSpace.innerHTML += "<div><span>" + artPasuk.substring(letInds[i]+1,letInds[i+1]) + "</span><strong style=\"font-size:25px\">" + artPasuk.charAt(letInds[i]) + "</strong><span>" + artPasuk.substring(letInds[i-1]+1,letInds[i]) + " " + "</span></div>\n"
         }
-        imageSpace.innerHTML += "<br> <button id = \"1artProduct\" onclick = \"document.getElementById(this.id.substring(1,this.id.length)).innerHTML = this.id.substring(0,0)\">Clear Image</button>"
+        document.getElementById("aPButtons").innerHTML = "<button onclick=\"clearImage()\" class=\"brownfill\">Clear Acrostic</button>"
+        document.getElementById("aPButtons").innerHTML += "  <button onclick=\"saveImage()\" class=\"brownfill\">Download Acrostic</button>"
+
+
     });
 }
 
+function clearImage(){
+    document.getElementById("artProduct").innerHTML = ""
+    document.getElementById("aPButtons").innerHTML = ""
+}
+function saveImage(){
+    domtoimage.toBlob(document.getElementById('artProduct'))
+    .then(function(blob) {
+      window.saveAs(blob, document.getElementById("versesdropdown").value.replace(/\./g, "-")+'-acrostic.png');
+    });
+}
 
 //No nikud/trope
 function fA2(sources){
@@ -259,7 +249,7 @@ function fA2(sources){
         for (var i = 2; i< letInds.length;i += 2){
             imageSpace.innerHTML += "<div><span>" + artPasuk.substring(letInds[i]+1,letInds[i+1]) + "</span><strong style=\"font-size:25px\">" + artPasuk.charAt(letInds[i]) + "</strong><span>" + artPasuk.substring(letInds[i-1]+1,letInds[i]) + " " + "</span></div>\n"
         }
-        imageSpace.innerHTML += "<br> <button id = \"1artProduct\" onclick = \"document.getElementById(this.id.substring(1,this.id.length)).innerHTML = this.id.substring(0,0)\">Clear Image</button>"
+        document.getElementById("aPButtons").innerHTML = "<button id = \"1artProduct\" onclick = \"clearImage()\" class=\"brownfill\">Clear Image</button>"
     });
 }
 

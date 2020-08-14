@@ -116,6 +116,7 @@
                 width: 70%;
             }
             .sideimage{
+                margin-left: 3%;
                 padding: 10px 20px;
                 float: left;
                 height: auto;
@@ -127,6 +128,8 @@
     <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
     <meta charset="utf-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://github.com/eligrey/FileSaver.js/"></script>
+    <script src="https://github.com/tsayen/dom-to-image"></script>
     <title>HTML Tester</title>
 </head>
 <div><img src="Testsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="lsidebar"></div>
@@ -151,7 +154,7 @@
             The results will appear in a dropdown, and you can mouse over the options to see the full English translation of each result. For any of the results, you can render what
             the acrostic art could look like. You may need to <i>scroll</i> down to see the entire acrostic.
         </p>
-        <img src="SampleArt.jpg" alt="Sorry, this image couldn't render" width="25%" height="100%" class="sideimage"></img>
+        <img src="SampleArt.jpg" alt="Sorry, this image couldn't render" width="22%" height="100%" class="sideimage"></img>
     </div>
     <div style="clear:both;"></div>
     <label for="names"><i>Key word:</i></label>
@@ -222,12 +225,13 @@
     <br>
 <div class="smallertext">
     <button id="save" class="brownfill">Find Verses</button><p id = "searching"></p>
-    <div id = "loadbar"></div>
+    <div id="loadbar"></div>
     <p></p>
-    <div id = "vary">
+    <div id="vary">
     </div>
-    <div id = "artProduct" class = "alignment">
-    </div>
+    <div id="artProduct" class = "alignment">
+</div>
+<div id="aPButtons" style="text-align: center;"></div>
     <script src="NameArt.js"></script>
 </div>
     <!--<br>
