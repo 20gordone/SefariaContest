@@ -2,7 +2,7 @@ var acc = document.getElementsByClassName("accordion");
 for (var i = 0; i < 3; i++) {
   acc[i].addEventListener("click", function() {
     this.classList.toggle("active");
-    var panel = this.nextElementSibling;
+    var panel = this.children[2];
     var title = this.children[1]
     if (panel.style.display === "block") {
         title.innerText = this.id + " (click to expand)"
@@ -15,7 +15,40 @@ for (var i = 0; i < 3; i++) {
   });
 }
 
+function recollapse(id){
+    thisacc = document.getElementById(id);
+    thisacc.classList.toggle("active");
+    var panel = thisacc.children[2];
+    var title = thisacc.children[1]
+    if (panel.style.display === "block") {
+        title.innerText = thisacc.id + " (click to expand)"
+        panel.style.display = "none";
+    }
+    else {
+        title.innerText = thisacc.id + " (click to compress)"
+        panel.style.display = "block";
+    }
+}
+
+/*
+for (var i = 0; i < 3; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    var title = this.children[1]
+    if (panel.style.display === "block") {
+        title.innerText = this.id + " (click to expand)"
+        panel.style.display = "none";
+    }
+    else {
+        title.innerText = this.id + " (click to compress)"
+        panel.style.display = "block";
+    }
+  });
+}*/
+
 function hebTest(lookup, perek, book, fillVal){
+    console.log(book + "." + String(perek))
     var jqxhr = jQuery.getJSON( "https://www.sefaria.org/api/texts/" + book + "." + String(perek), function(data) {
         hverses = jqxhr.responseJSON.he
         for (var i =0; i<hverses.length;i++){
@@ -69,7 +102,7 @@ function nameSearch(){
         alert("Please select some books to search");
         return;
     }
-    document.getElementById("vary").innerHTML ="<label for=\"versesdropdown\"><i>Pasuk results:</i></label><select id=\"versesdropdown\" class=\"brownfill\"></select>"
+    document.getElementById("vary").innerHTML ="<label for=\"versesdropdown\"><i>Search results:</i></label><select id=\"versesdropdown\" class=\"brownfill\"></select>"
     document.getElementById("searching").textContent = "Searching..."
     document.getElementById("loadbar").innerHTML = "<div id=\"myProgress\"><div id=\"myBar\"></div></div>"
     currentdropdown = document.getElementById('tormenu').children;
@@ -181,6 +214,12 @@ function formatArt(sources){
     var artPerek = jQuery.getJSON( "https://www.sefaria.org/api/texts/" + book + "." + chapter, function(data) {
         artPasuk = artPerek.responseJSON.he[parseInt(verse)-1]
         artPasuk = artPasuk.substring(0,artPasuk.indexOf("׃"))
+        var temp = ""
+        for (var i = 0; i<artPasuk.length;i++){
+            if (!(/[\[\]]+$/.test(artPasuk.charAt(i))))
+                temp += artPasuk.charAt(i)
+        }
+        artPasuk=temp
         var letInds = contained2(lookup, artPasuk) 
         imageSpace = document.getElementById("artProduct")
         imageSpace.innerHTML = "<div><span>" + artPasuk.substring(letInds[0]+1,letInds[1]) + "</span><strong style=\"font-size:25px\">" + artPasuk.charAt(letInds[0]) + "</strong><span>" + artPasuk.substring(0,letInds[0]) + "</span></div>\n"
@@ -188,7 +227,7 @@ function formatArt(sources){
         for (var i = 2; i< letInds.length;i += 2){
             imageSpace.innerHTML += "<div><span>" + artPasuk.substring(letInds[i]+1,letInds[i+1]) + "</span><strong style=\"font-size:25px\">" + artPasuk.charAt(letInds[i]) + "</strong><span>" + artPasuk.substring(letInds[i-1]+1,letInds[i]) + " " + "</span></div>\n"
         }
-        imageSpace.innerHTML += "<br> <button id = \"1artProduct\" onclick = \"document.getElementById(this.id.substring(1,this.id.length)).innerHTML = this.id.substring(0,0)\" class=\"brownfill\">Clear Image</button>"
+        imageSpace.innerHTML += "<br> <button id = \"1artProduct\" onclick = \"document.getElementById(this.id.substring(1,this.id.length)).innerHTML = this.id.substring(0,0)\">Clear Image</button>"
     });
 }
 
@@ -220,7 +259,7 @@ function fA2(sources){
         for (var i = 2; i< letInds.length;i += 2){
             imageSpace.innerHTML += "<div><span>" + artPasuk.substring(letInds[i]+1,letInds[i+1]) + "</span><strong style=\"font-size:25px\">" + artPasuk.charAt(letInds[i]) + "</strong><span>" + artPasuk.substring(letInds[i-1]+1,letInds[i]) + " " + "</span></div>\n"
         }
-        imageSpace.innerHTML += "<br> <button id = \"1artProduct\" onclick = \"document.getElementById(this.id.substring(1,this.id.length)).innerHTML = this.id.substring(0,0)\" class=\"brownfill\">Clear Image</button>"
+        imageSpace.innerHTML += "<br> <button id = \"1artProduct\" onclick = \"document.getElementById(this.id.substring(1,this.id.length)).innerHTML = this.id.substring(0,0)\">Clear Image</button>"
     });
 }
 

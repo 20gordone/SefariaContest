@@ -4,10 +4,14 @@
         <style>
             .alignment {
                 text-align:center;
+                margin-left: 15%;
+                width: 70%;
+                background-color: white;
+                color: black;
                 font-size: 20px;
             }
 
-            .alignment span{min-width: 500px; display: inline-block; text-align: left;}
+            .alignment span{min-width: 400px; display: inline-block; text-align: left;}
             .alignment span:first-child{text-align: right;}
             #myProgress {
                 width: 50%;
@@ -43,7 +47,7 @@
                 z-index: 2; /* Stay on top */
                 margin-top: -10%;
                 margin-left: -5%;
-                height: 19.6%;
+                height: 19.1%;
                 width: 100%;
                 padding: 0px 0px;
                 background-color: white;/* #8D715C; */
@@ -89,11 +93,11 @@
                 outline: none;
                 font-size: 20px;
                 transition: 0.4s;
-                width: 30%;
+                width: 32%;
             }
 
             .active, .accordion:hover {
-                background-color: rgb(218, 128, 12); 
+                background-color: rgb(167, 101, 3); 
             }
 
             .panel {
@@ -101,19 +105,21 @@
                 display: none;
                 background-color: rgb(194, 112, 18);
                 overflow: hidden;
+                text-align: left;
+                font-size: 20px;
             }
             .lacc{
                 display: inline;
             }
-            .cacc{
-                margin-left: 3%;
-                display: inline;
+            .introp{
+                float: left;
+                width: 70%;
             }
-            .racc{
-                margin-left: 3%;
-                display: inline;
+            .sideimage{
+                padding: 10px 20px;
+                float: left;
+                height: auto;
             }
-
         </style>
 
 <head>
@@ -129,73 +135,93 @@
 <div class="lowbar"></div>
 
 <body class="main">
-    <p id="introp">Type in a Hebrew word/words (no spaces) and select the books you want to search.</p>
-    <br>
+    <div class="summary">
+        <p id="SefariaBackground" class="introp">
+            Welcome to the Sefaria Acrostic applet! This was designed for the <a href="https://www.sefaria.org/?home" target="_blank">Sefaria</a> API Contest in the summer of 2020. It uses the <a href="https://github.com/Sefaria/Sefaria-Project/wiki/API-Documentation" target="_blank">Sefaria API</a>
+            to search Tanakh (the Old Testament).
+            <br>
+            <br>
+            The applet's purpose is to find biblical verses that are acrostics for hebrew names. These verses can be used to make personalized Jewish art.
+            For example, the default name to search for is "Leah" and "Benjamin" in hebrew. A piece of wedding artwork for "Leah" and "Ben" is shown to the right.
+            <br>
+            <br>
+            To use the applet, write in the name/names in hebrew in the textbox without spaces. If you don't have a hebrew keyboad, you can 
+            go to <a href="https://www.branah.com/hebrew" target="_blank">this website</a>. Then choose which books you want to search.
+            Once you've chosen your names and books, click "Find Verses".
+            The results will appear in a dropdown, and you can mouse over the options to see the full English translation of each result. For any of the results, you can render what
+            the acrostic art could look like. You may need to <i>scroll</i> down to see the entire acrostic.
+        </p>
+        <img src="SampleArt.jpg" alt="Sorry, this image couldn't render" width="25%" height="100%" class="sideimage"></img>
+    </div>
+    <div style="clear:both;"></div>
     <label for="names"><i>Key word:</i></label>
-    <input type="text" id="names" name="names" value ="לאהובנ" class="brownfill"><br>
+    <input type="text" id="names" name="names" value ="לאהבנימינ" class="brownfill"><br>
     <strong>Choose which books to include: </strong> 
 
 <div>
     <div class="lacc">
-        <button class="accordion" id="Include Torah"><input type="checkbox" id="Wholetorah" onclick="checkTorah()"><strong>Include Torah (click to expand)</strong></button>
+        <button class="accordion" id="Include Torah"><input type="checkbox" id="Wholetorah" onclick="checkTorah()"><strong>Include Torah (click to expand)</strong>
         <div id="tormenu" class="panel">
-            <strong>Torah: </strong><input type="checkbox" id="Genesis" name="1Genesis" value=50>Genesis</input>
-            <input type="checkbox" id="1Exodus" name="Exodus" value=40>Exodus</input>
-            <input type="checkbox" id="1Leviticus" name="Leviticus" value=27>Leviticus</input>
-            <input type="checkbox" id="1Numbers" name="Numbers" value=36>Numbers</input>
-            <input type="checkbox" id="1Deuteronomy" name="Deuteronomy" value=34>Deuteronomy</input>
+            <strong>Torah: </strong><input type="checkbox" id="Genesis" name="Genesis" value=50 onclick="recollapse(this.parentElement.parentElement.id)">Genesis</input>
+            <input type="checkbox" id="1Exodus" name="Exodus" value=40 onclick="recollapse(this.parentElement.parentElement.id)">Exodus</input>
+            <input type="checkbox" id="1Leviticus" name="Leviticus" value=27 onclick="recollapse(this.parentElement.parentElement.id)">Leviticus</input>
+            <input type="checkbox" id="1Numbers" name="Numbers" value=36 onclick="recollapse(this.parentElement.parentElement.id)">Numbers</input>
+            <input type="checkbox" id="1Deuteronomy" name="Deuteronomy" value=34 onclick="recollapse(this.parentElement.parentElement.id)">Deuteronomy</input>
         </div>
+    </button>
     </div>
 
-<div class="cacc">
+<div class="lacc">
     <button class="accordion" id="Include Prophets">
-    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><strong>Include Prophets (click to expand)</strong></input></button>
+    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><strong>Include Prophets (click to expand)</strong></input>
     <div id="promenu" class="panel">
-      <strong>Prophets: </strong> <input type="checkbox" id="1Joshua" name="Joshua" value =24>Joshua</input>
-        <input type="checkbox" id="1Judges" name="Judges" value=21>Judges</input>
-        <input type="checkbox" id="1Samuel I" name="Samuel I" value=31>Samuel I</input>
-        <input type="checkbox" id="1Samuel II" name="Samuel II" value=24>Samuel II</input>
-        <input type="checkbox" id="1Kings I" name="Kings I" value=22>Kings I</input>
-        <input type="checkbox" id="1Kings II" name="Kings II" value=25>Kings II</input>
-        <input type="checkbox" id="1Isaiah" name="Isaiah" value=66>Isaiah</input>
-        <input type="checkbox" id="1Jeremiah" name="Jeremiah" value=52>Jeremiah</input>
-        <input type="checkbox" id="1Ezekiel" name="Ezekiel" value=48>Ezekiel</input>
-        <input type="checkbox" id="1Hosea" name="Hosea" value=14>Hosea</input>
-        <input type="checkbox" id="1Joel" name="Joel" value=3>Joel</input>
-        <input type="checkbox" id="1Amos" name="Amos" value=9>Amos</input>
-        <input type="checkbox" id="1Obadiah" name="Obadiah" value=1>Obadiah</input>
-        <input type="checkbox" id="1Jonah" name="Jonah" value=4>Jonah</input>
-        <input type="checkbox" id="1Micah" name="Micah" value=7>Micah</input>
-        <input type="checkbox" id="1Nahum" name="Nahum" value=3>Nahum</input>
-        <input type="checkbox" id="1Habakkuk" name="Habakkuk" value=3>Habakkuk</input>
-        <input type="checkbox" id="1Zephaniah" name="Zephaniah" value=3>Zephaniah</input>
-        <input type="checkbox" id="1Haggai" name="Haggai" value=2>Haggai</input>
-        <input type="checkbox" id="1Zechariah" name="Zechariah" value=14>Zechariah</input>
-        <input type="checkbox" id="1Malachi" name="Malachi" value=3>Malachi</input>
+      <strong>Prophets: </strong> <input type="checkbox" id="1Joshua" name="Joshua" value =24 onclick="recollapse(this.parentElement.parentElement.id)">Joshua</input>
+        <input type="checkbox" id="1Judges" name="Judges" value=21 onclick="recollapse(this.parentElement.parentElement.id)">Judges</input>
+        <input type="checkbox" id="1Samuel I" name="Samuel I" value=31 onclick="recollapse(this.parentElement.parentElement.id)">Samuel I</input>
+        <input type="checkbox" id="1Samuel II" name="Samuel II" value=24 onclick="recollapse(this.parentElement.parentElement.id)">Samuel II</input>
+        <input type="checkbox" id="1Kings I" name="Kings I" value=22 onclick="recollapse(this.parentElement.parentElement.id)">Kings I</input>
+        <input type="checkbox" id="1Kings II" name="Kings II" value=25 onclick="recollapse(this.parentElement.parentElement.id)">Kings II</input>
+        <input type="checkbox" id="1Isaiah" name="Isaiah" value=66 onclick="recollapse(this.parentElement.parentElement.id)">Isaiah</input>
+        <input type="checkbox" id="1Jeremiah" name="Jeremiah" value=52 onclick="recollapse(this.parentElement.parentElement.id)">Jeremiah</input>
+        <input type="checkbox" id="1Ezekiel" name="Ezekiel" value=48 onclick="recollapse(this.parentElement.parentElement.id)">Ezekiel</input>
+        <input type="checkbox" id="1Hosea" name="Hosea" value=14 onclick="recollapse(this.parentElement.parentElement.id)">Hosea</input>
+        <input type="checkbox" id="1Joel" name="Joel" value=3 onclick="recollapse(this.parentElement.parentElement.id)">Joel</input>
+        <input type="checkbox" id="1Amos" name="Amos" value=9 onclick="recollapse(this.parentElement.parentElement.id)">Amos</input>
+        <input type="checkbox" id="1Obadiah" name="Obadiah" value=1 onclick="recollapse(this.parentElement.parentElement.id)">Obadiah</input>
+        <input type="checkbox" id="1Jonah" name="Jonah" value=4 onclick="recollapse(this.parentElement.parentElement.id)">Jonah</input>
+        <input type="checkbox" id="1Micah" name="Micah" value=7 onclick="recollapse(this.parentElement.parentElement.id)">Micah</input>
+        <input type="checkbox" id="1Nahum" name="Nahum" value=3 onclick="recollapse(this.parentElement.parentElement.id)">Nahum</input>
+        <input type="checkbox" id="1Habakkuk" name="Habakkuk" value=3 onclick="recollapse(this.parentElement.parentElement.id)">Habakkuk</input>
+        <input type="checkbox" id="1Zephaniah" name="Zephaniah" value=3 onclick="recollapse(this.parentElement.parentElement.id)">Zephaniah</input>
+        <input type="checkbox" id="1Haggai" name="Haggai" value=2 onclick="recollapse(this.parentElement.parentElement.id)">Haggai</input>
+        <input type="checkbox" id="1Zechariah" name="Zechariah" value=14 onclick="recollapse(this.parentElement.parentElement.id)">Zechariah</input>
+        <input type="checkbox" id="1Malachi" name="Malachi" value=3 onclick="recollapse(this.parentElement.parentElement.id)">Malachi</input>
     </div>
+</button>
 </div>
-<div class="racc">
-    <button class="accordion" id="Include Writings"><input type="checkbox" id="Wholewrit" onclick="checkWritings()"><strong>Include Writings (click to expand)</strong></button>
+<div class="lacc">
+    <button class="accordion" id="Include Writings"><input type="checkbox" id="Wholewrit" onclick="checkWritings()"><strong>Include Writings (click to expand)</strong>
     <div id="writmenu" class="panel">
-      <strong>Writings:</strong> <input type="checkbox" id="1Psalms" name="Psalms" value=150>Psalms</input>
-        <input type="checkbox" id="1Proverbs" name="Proverbs" value=31>Proverbs</input>
-        <input type="checkbox" id="1Job" name="Job" value=42>Job</input>
-        <input type="checkbox" id="1SoS" name="Song of Songs" value=8>Song of Songs</input>
-        <input type="checkbox" id="1Ruth" name="Ruth" value=4>Ruth</input>
-        <input type="checkbox" id="1Lamentations" name="Lamentations" value=5>Lamentations</input>
-        <input type="checkbox" id="1Ecclesiastes" name="Ecclesiastes" value=12>Ecclesiastes</input>
-        <input type="checkbox" id="1Esther" name="Esther" value=10>Esther</input>
-        <input type="checkbox" id="1Daniel" name="Daniel" value=12>Daniel</input>
-        <input type="checkbox" id="1Ezra" name="Ezra" value=10>Ezra</input>
-        <input type="checkbox" id="1Nehemiah" name="Nehemiah" value=13>Nehemiah</input>
-        <input type="checkbox" id="1Chronicles I" name="Chronicles I" value=29>Chronicles I</input>
-        <input type="checkbox" id="1Chronicles II" name="Chronicles II" value=36>Chronicles II</input>
+      <strong>Writings:</strong> <input type="checkbox" id="1Psalms" name="Psalms" value=150 onclick="recollapse(this.parentElement.parentElement.id)">Psalms</input>
+        <input type="checkbox" id="1Proverbs" name="Proverbs" value=31 onclick="recollapse(this.parentElement.parentElement.id)">Proverbs</input>
+        <input type="checkbox" id="1Job" name="Job" value=42 onclick="recollapse(this.parentElement.parentElement.id)">Job</input>
+        <input type="checkbox" id="1SoS" name="Song of Songs" value=8 onclick="recollapse(this.parentElement.parentElement.id)">Song of Songs</input>
+        <input type="checkbox" id="1Ruth" name="Ruth" value=4 onclick="recollapse(this.parentElement.parentElement.id)">Ruth</input>
+        <input type="checkbox" id="1Lamentations" name="Lamentations" value=5 onclick="recollapse(this.parentElement.parentElement.id)">Lamentations</input>
+        <input type="checkbox" id="1Ecclesiastes" name="Ecclesiastes" value=12 onclick="recollapse(this.parentElement.parentElement.id)">Ecclesiastes</input>
+        <input type="checkbox" id="1Esther" name="Esther" value=10 onclick="recollapse(this.parentElement.parentElement.id)">Esther</input>
+        <input type="checkbox" id="1Daniel" name="Daniel" value=12 onclick="recollapse(this.parentElement.parentElement.id)">Daniel</input>
+        <input type="checkbox" id="1Ezra" name="Ezra" value=10 onclick="recollapse(this.parentElement.parentElement.id)">Ezra</input>
+        <input type="checkbox" id="1Nehemiah" name="Nehemiah" value=13 onclick="recollapse(this.parentElement.parentElement.id)">Nehemiah</input>
+        <input type="checkbox" id="1Chronicles I" name="Chronicles I" value=29 onclick="recollapse(this.parentElement.parentElement.id)">Chronicles I</input>
+        <input type="checkbox" id="1Chronicles II" name="Chronicles II" value=36 onclick="recollapse(this.parentElement.parentElement.id)">Chronicles II</input>
     </div>
+    </button>
 </div>
 </div>
     <br>
 <div class="smallertext">
-    <button id="save" class="brownfill">Find Psukim</button><p id = "searching"></p>
+    <button id="save" class="brownfill">Find Verses</button><p id = "searching"></p>
     <div id = "loadbar"></div>
     <p></p>
     <div id = "vary">
