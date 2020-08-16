@@ -48,7 +48,6 @@ for (var i = 0; i < 3; i++) {
 }*/
 
 function hebTest(lookup, perek, book, fillVal){
-    console.log(book + "." + String(perek))
     var jqxhr = jQuery.getJSON( "https://www.sefaria.org/api/texts/" + book + "." + String(perek), function(data) {
         hverses = jqxhr.responseJSON.he
         for (var i =0; i<hverses.length;i++){
@@ -118,8 +117,8 @@ function noresults(){
         item.innerHTML = "Sorry, there don't seem to be any results for that search"
     }
     else if (item.children[item.children.length-1].id != "countresults"){
-        item.innerHTML += "<br> <button id = \"noVowel\" onclick = \"fA2(this.parentElement.children[1].value)\" class=\"brownfill\">Render Without Vowels</button>"
-        item.innerHTML += "<button id = \"Vowel\" onclick = \"formatArt(this.parentElement.children[1].value)\" class=\"brownfill\">Render With Vowels</button>"
+        item.innerHTML += "<br> <button id = \"noVowel\" onclick = \"fA2()\" class=\"brownfill\">Render Without Vowels</button>"
+        item.innerHTML += "<button id = \"Vowel\" onclick = \"formatArt()\" class=\"brownfill\">Render With Vowels</button>"
         item.innerHTML += "<button id = \"goSefaria\" button title=\"goverse\" class=\"action primary tocart brownfill\" onclick = \" openLink(); return false;\">Go to this verse on Sefaria</button>"
         var resultCount = item.children[1].children.length
         if (resultCount == 1) {
@@ -178,11 +177,12 @@ function addElement(lookup, book, chapter, verse, eText){
 }
 
 //Includes trope/nikud
-function formatArt(sources){
+function formatArt(){
     var remover = document.getElementById("vary")
     if (remover.children.length>0 && remover.children[remover.children.length-1].id == "countresults"){
         document.getElementById("vary").removeChild(document.getElementById("countresults"))
     }
+    var sources = document.getElementById('versesdropdown').value
     var source = sources.split(".");
     var lookup = source[0];
     var book = source[1];
@@ -205,7 +205,7 @@ function formatArt(sources){
             imageSpace.innerHTML += "<div><span>" + artPasuk.substring(letInds[i]+1,letInds[i+1]) + "</span><strong style=\"font-size:25px\">" + artPasuk.charAt(letInds[i]) + "</strong><span>" + artPasuk.substring(letInds[i-1]+1,letInds[i]) + " " + "</span></div>\n"
         }
         document.getElementById("aPButtons").innerHTML = "<button onclick=\"clearImage()\" class=\"brownfill\">Clear Acrostic</button>"
-        document.getElementById("aPButtons").innerHTML += "  <button onclick=\"saveImage()\" class=\"brownfill\">Download Acrostic</button>"
+        document.getElementById("aPButtons").innerHTML += "  <button id=\"dl\" onclick=\"saveImage()\" class=\"brownfill\">Download Acrostic</button>"
 
 
     });
@@ -216,18 +216,34 @@ function clearImage(){
     document.getElementById("aPButtons").innerHTML = ""
 }
 function saveImage(){
-    domtoimage.toBlob(document.getElementById('artProduct'))
-    .then(function(blob) {
-      window.saveAs(blob, document.getElementById("versesdropdown").value.replace(/\./g, "-")+'-acrostic.png');
+    alert("Not yet functional, sorry")
+    document.getElementById("dl").disabled = true;
+    html2canvas(document.querySelector("artProduct")).then(canvas => {
+        var imgurl = canvas.toDataURL()
+        var link = document.createElement('a');
+        var filename = document.getElementById('versesdropdown').value + ".acrosticart"
+        if (typeof link.download === 'string') {
+            link.href = igmurl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            document.getElementById("dl").disabled = false;
+        } else {
+            window.open(uri);
+            document.getElementById("dl").disabled = false;
+        }
     });
+
 }
 
 //No nikud/trope
-function fA2(sources){
+function fA2(){
     var remover = document.getElementById("vary")
     if (remover.children.length>0 && remover.children[remover.children.length-1].id == "countresults"){
         document.getElementById("vary").removeChild(document.getElementById("countresults"))
     }
+    var sources = document.getElementById('versesdropdown').value
     var source = sources.split(".");
     var lookup = source[0];
     var book = source[1];
