@@ -4,7 +4,6 @@ function fA10(){
     var remover = document.getElementById("vary")
     if (remover.children.length>0 && remover.children[remover.children.length-1].id == "countresults"){
         document.getElementById("vary").removeChild(document.getElementById("countresults"))
-        document.getElementById("includePA").hidden = false;
     }
     if (document.getElementById('versesdropdown').value.split(".")[1] == "Pirkei Avot"){
         fA11();
@@ -19,7 +18,6 @@ function fA20(){
     var remover = document.getElementById("vary")
     if (remover.children.length>0 && remover.children[remover.children.length-1].id == "countresults"){
         document.getElementById("vary").removeChild(document.getElementById("countresults"))
-        document.getElementById("includePA").hidden = false;
     }
     if (document.getElementById('versesdropdown').value.split(".")[1] == "Pirkei Avot"){
         fA21();
@@ -42,7 +40,7 @@ function fA11(){
     var chapter = source[2];
     var verse = source[3];
     var artPerek = jQuery.getJSON("https://www.sefaria.org/api/texts/" + book + "." + chapter, function(data) {
-        artPasuk = artPerek.responseJSON.he[parseInt(verse)-1]
+        artPasuk = artPerek.responseJSON.he[parseInt(verse)-1]    
         var letInds = contained2(lookup, artPasuk) 
         imageSpace = document.getElementById("artProduct")
         letInds[letInds.length-1] = artPasuk.length
@@ -72,7 +70,7 @@ function fA21(){
         artPasuk = artPerek.responseJSON.he[parseInt(verse)-1]
         simplePasuk = ""
         for (var i = 0; i<artPasuk.length;i++){
-            if (/[א-ת ־.:;,()]+$/.test(artPasuk.charAt(i)))
+            if (/[א-ת ־\. ׃:;,()]+$/.test(artPasuk.charAt(i)))
                 simplePasuk += artPasuk.charAt(i)
         }
         artPasuk = simplePasuk
@@ -100,7 +98,15 @@ function fA1(){
     var verse = source[3];
     var artPerek = jQuery.getJSON("https://www.sefaria.org/api/texts/" + book + "." + chapter, function(data) {
         artPasuk = artPerek.responseJSON.he[parseInt(verse)-1]
-        artPasuk = artPasuk.substring(0,artPasuk.indexOf("׃"))
+        artPasuk = artPasuk.substring(0,1+artPasuk.indexOf("׃"))
+        if (source[4] == "2"){
+            var p2 = artPerek.responseJSON.he[parseInt(verse)]
+            p2 = p2.substring(0,1+p2.indexOf("׃"))
+            artPasuk = artPasuk + " " + p2
+        }
+        else {
+            artPasuk = artPasuk.substring(0,artPasuk.indexOf("׃"))
+        }
         var temp = ""
         for (var i = 0; i<artPasuk.length;i++){
             if (!(/[\[\]]+$/.test(artPasuk.charAt(i))))
@@ -144,10 +150,19 @@ function fA2(){
     var verse = source[3];
     var artPerek = jQuery.getJSON( "https://www.sefaria.org/api/texts/" + book + "." + chapter, function(data) {
         artPasuk = artPerek.responseJSON.he[parseInt(verse)-1]
-        artPasuk = artPasuk.substring(0,artPasuk.indexOf("׃"))
+        artPasuk = artPasuk.substring(0,1+artPasuk.indexOf("׃"))
+        if (source[4] == "2"){
+            var p2 = artPerek.responseJSON.he[parseInt(verse)]
+            p2 = p2.substring(0,1+p2.indexOf("׃"))
+            artPasuk = artPasuk + " " + p2
+        }
+        else {
+            artPasuk = artPasuk.substring(0,artPasuk.indexOf("׃"))
+        }
         simplePasuk = ""
+        console.log(artPasuk)
         for (var i = 0; i<artPasuk.length;i++){
-            if (/[א-ת ־]+$/.test(artPasuk.charAt(i)))
+            if (/[א-ת ׃ ־]+$/.test(artPasuk.charAt(i)))
                 simplePasuk += artPasuk.charAt(i)
         }
         artPasuk = simplePasuk
@@ -197,11 +212,12 @@ function saveImage(){
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            document.getElementById("dl").disabled = false;
-        } else {
-            window.open(uri);
-            document.getElementById("dl").disabled = false;
         }
+        else {
+            window.open(uri);
+        }
+        document.getElementById("dl").disabled = false;
+
     });
 
 }
@@ -223,7 +239,7 @@ function contained2(str1, verse){
         for (var j = 0; j<wordsarray.length; j++){
             var v2 = ""
             for (var i = 0; i<wordsarray[j].length;i++){
-                if (/[א-ת ־]+$/.test(wordsarray[j].charAt(i))){
+                if (/[א-ת ׃ ־]+$/.test(wordsarray[j].charAt(i))){
                     v2 += wordsarray[j].charAt(i)
                 }
             }
@@ -242,38 +258,47 @@ function contained2(str1, verse){
         if (verse.charAt(i) == str.charAt(index)){
 
             indices[index] = i
+            if (index>0 && index%2 == 0){
+                indices[index-1] = indices[index-2]+findMidSpace(verse.substring(indices[index-2],i))
+            }
             index++;
+
         }
-        if (verse.charAt(i) == " " && index>0 & index%2 == 0){
+        if (verse.charAt(i) == " " && index>0 && index%2 == 0){
             indices[index-1] = i
         }
+
+    }
+    for (var i =3; i<indices.length; i+=2){
+        indices[index-1] = indices[index-2]+findMidChar(verse.substring(indices[index-2],i),verse.charAt(i-1))
 
     }
     return indices;
 }
 
-function contained21(str1, verse){
-    var str = "";
-    for (var i = 0; i<2*str1.length;i++){
-        if (i %2 == 0){
-            str += str1.charAt(i/2);
+//run this function on verse.substring(letinds[i-1],letinds[i+1])
+function findMidSpace(str){
+    var j = str.length/2
+    for (var i =0; i<str.length/2;i++){
+        if (str.charAt(j-i) == " "){
+            return (j-i)
         }
-        else {
-            str += " ";
+        if (str.charAt(j+i) == " "){
+            return (j+i)
         }
     }
-    var indices = new Array(str.length)
-    var index = 0;
-    for (i = 0; i<verse.length; i++){
-        if (verse.charAt(i) == str.charAt(index)){
+    return (str.length-1)
+}
 
-            indices[index] = i
-            index++;
+function findMidChar(str, char){
+    var j = str.length/2
+    for (var i =0; i<str.length/2;i++){
+        if (str.charAt(j-i) == " "){
+            return (j-i)
         }
-        if (verse.charAt(i) == " " && index>0 & index%2 == 0){
-            indices[index-1] = i
+        if (str.charAt(j+i) == " "){
+            return (j+i)
         }
-
     }
-    return indices;
+    return (str.length-1)
 }

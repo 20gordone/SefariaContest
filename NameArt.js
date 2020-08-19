@@ -47,12 +47,40 @@ for (var i = 0; i < 3; i++) {
   });
 }*/
 
+function hebTest2(l2, perek, book, fillVal){
+    var lookup = l2.replace(/\s/g, '')
+    var v1 = ""
+    var v2 = ""
+    var jqxhr = jQuery.getJSON( "https://www.sefaria.org/api/texts/" + book + "." + String(perek), function(data) {
+        hverses = jqxhr.responseJSON.he
+        for (var i =0; i<hverses.length-1;i++){
+            v1= hverses[i].substring(0,1+hverses[i].indexOf("׃"))
+            v2=hverses[i+1].substring(0,1+hverses[i+1].indexOf("׃"))
+            if(hverses[i].length<400 && contained(lookup,v1 + " " + v2)){
+                if (!contained(lookup,v1) && !contained(lookup,v2)){
+                    addElement2(l2, book,String(perek),i+1,jqxhr.responseJSON.text[i] + " " + jqxhr.responseJSON.text[i+1])
+                }
+            }
+        }
+        widthString = document.getElementById("myBar").style.width
+        document.getElementById("myBar").style.width = (Number(widthString.substring(0,widthString.length-1))+fillVal) + "%"
+        if (Number(widthString.substring(0,widthString.length-1))+fillVal>99){
+            setTimeout(() => { resetbar(); }, 500);
+        }
+    });
+}
+
 function hebTest(l2, perek, book, fillVal){
     var lookup = l2.replace(/\s/g, '')
+    var v1 = ""
     var jqxhr = jQuery.getJSON( "https://www.sefaria.org/api/texts/" + book + "." + String(perek), function(data) {
         hverses = jqxhr.responseJSON.he
         for (var i =0; i<hverses.length;i++){
-            if(hverses[i].length<400 && contained(lookup,hverses[i])){
+            v1 = hverses[i].substring(0,1+hverses[i].indexOf("׃"))
+            if (book == "Pirkei Avot"){
+                v1=hverses[i]
+            }
+            if(hverses[i].length<400 && contained(lookup,v1)){
                 addElement(l2, book,String(perek),String(i+1),jqxhr.responseJSON.text[i])
             }
         }
@@ -76,7 +104,6 @@ function nameSearch(){
     document.getElementById("includePA").hidden = true;
     document.getElementById("save").disabled = true;
     document.getElementById("names").disabled = true;
-    document.getElementById("shems").disabled = true;
     document.getElementById("artProduct").innerHTML = ""
     document.getElementById("vary").innerHTML = ""
     document.getElementById("aPButtons").innerHTML = ""
@@ -87,7 +114,6 @@ function nameSearch(){
         document.getElementById("includePA").hidden = false;
         document.getElementById("save").disabled = false;
         document.getElementById("names").disabled = false;
-        document.getElementById("shems").disabled = false;
         return;
     }
     if (l2.charAt(0) == " " || l2.charAt(l2.length-1) == " "){
@@ -95,11 +121,11 @@ function nameSearch(){
         document.getElementById("includePA").hidden = false;
         document.getElementById("save").disabled = false;
         document.getElementById("names").disabled = false;
-        document.getElementById("shems").disabled = false;
         return;
     }
     var numbooks = 0.0
     var checkPA = document.getElementById("1Pirkei Avot").checked
+    var check2p = document.getElementById("pasukpairs").checked
     var sections = ["tormenu","promenu","writmenu"]
     for (var x=0;x<3;x++){
         currentdropdown = document.getElementById(sections[x]).children;
@@ -117,7 +143,6 @@ function nameSearch(){
         document.getElementById("includePA").hidden = false;
         document.getElementById("save").disabled = false;
         document.getElementById("names").disabled = false;
-        document.getElementById("shems").disabled = false;
         return;
     }
     document.getElementById("vary").innerHTML ="<label for=\"versesdropdown\"><i>Search results:</i></label><select id=\"versesdropdown\" class=\"brownfill\"></select>"
@@ -134,8 +159,15 @@ function nameSearch(){
         currentdropdown = document.getElementById(sections[x]).children;
         for (i = 1; i<currentdropdown.length;i+= 1){
             if (currentdropdown[i].checked){
-                for (var j = 0; j<Number(currentdropdown[i].value);j++){
-                    hebTest(l2,j+1,currentdropdown[i].name,fillVal);
+                if (check2p){
+                    for (var j = 0; j<Number(currentdropdown[i].value);j++){
+                        hebTest2(l2,j+1,currentdropdown[i].name,fillVal);
+                    }
+                }
+                else {
+                    for (var j = 0; j<Number(currentdropdown[i].value);j++){
+                        hebTest(l2,j+1,currentdropdown[i].name,fillVal);
+                    }
                 }
             }
         }
@@ -161,7 +193,7 @@ function noresults(){
         }
 
     }
-    document.getElementById("shems").disabled = false;
+    document.getElementById("includePA").hidden = false;
     document.getElementById("save").disabled = false;
     document.getElementById("names").disabled = false;
 
@@ -222,11 +254,18 @@ function addElement(lookup, book, chapter, verse, eText){
     if (text.length>153){
         text = text.substring(0,150) + "..." //Limit the length
     }
-    var url = "https://www.sefaria.org/" + book + "." + chapter + "." + verse;
     var buttonId = lookup  + "." + book + "." + chapter + "." + verse
     document.getElementById("versesdropdown").innerHTML += "<option value = \"" + buttonId + "\" title=\"" + eText + "\">" + text + "</option>"
 }
 
+function addElement2(lookup, book, chapter, verse, eText){
+    var text = book + " " + chapter + ":" + String(verse) + "-" + String(verse+1) + " --> " + eText; //What the option should appear as, rendered fully
+    if (text.length>153){
+        text = text.substring(0,150) + "..." //Limit the length
+    }
+    var buttonId = lookup  + "." + book + "." + chapter + "." + String(verse) + ".2"
+    document.getElementById("versesdropdown").innerHTML += "<option value = \"" + buttonId + "\" title=\"" + eText + "\">" + text + "</option>"
+}
 
 
 

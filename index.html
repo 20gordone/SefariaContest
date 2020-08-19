@@ -47,7 +47,7 @@
                 z-index: 2; /* Stay on top */
                 margin-top: -10%;
                 margin-left: -5%;
-                height: 19.5%; /*19.1/19.6 */
+                height: 19%; /*19.1/19.6 */
                 width: 100%;
                 padding: 0px 0px;
                 background-color: white;/* #8D715C; */
@@ -151,13 +151,13 @@
             For example, the default name to search for is "Leah" and "Benjamin" in hebrew. A piece of wedding artwork for "Leah" and "Ben" is shown to the right.
             <br>
             <br>
-            To use the applet, write in the name/names in hebrew in the textbox. If you don't have a hebrew keyboad, you can 
+            To use the applet, write in the name/names in hebrew in the textbox. If you don't have a hebrew keyboard, you can 
             go to <a href="https://www.branah.com/hebrew" target="_blank">this website</a>. Then choose which books you want to search.
-            Once you've chosen your names, books, and shemot usage, click "Find Verses".
+            Once you've chosen your names, books, click "Find Verses". <br> <br>
             The results will appear in a dropdown, and you can mouse over the options to see the full English translation of each result. For any of the results, you can render what
-            the acrostic art could look like. If it doesn't render correctly, try zooming out. You may need to "<i>scroll</i>" down to see the entire acrostic.
+            the acrostic art could look like. If it doesn't render correctly, try zooming out. You may need to "<i>scroll</i>" down to see the entire acrostic. There are more options at the bottom.
         </p>
-        <img src="SampleArt.jpg" alt="Sorry, this image couldn't render" width="22%" height="100%" class="sideimage"></img>
+        <img src="SampleArt.jpg" alt="Sorry, this image couldn't render" width="24%" height="100%" class="sideimage"></img>
     </div>
     <div style="clear:both;"></div>
     <br>
@@ -207,7 +207,7 @@
 </button>
 </div>
 <div class="lacc">
-    <button class="accordion" id="Include Writings"><input type="checkbox" id="Wholewrit" onclick="checkWritings()"><span>Include Prophets (click to expand)</span></input>
+    <button class="accordion" id="Include Writings"><input type="checkbox" id="Wholewrit" onclick="checkWritings()"><span>Include Writings (click to expand)</span></input>
     <div id="writmenu" class="panel">
       <strong>Writings:</strong> <input type="checkbox" id="1Psalms" name="Psalms" value=150 onclick="recollapse(this.parentElement.parentElement.id)">Psalms</input>
         <input type="checkbox" id="1Proverbs" name="Proverbs" value=31 onclick="recollapse(this.parentElement.parentElement.id)">Proverbs</input>
@@ -226,7 +226,6 @@
     </button>
 </div>
 </div>
-    Exclude God's names from use in acrostics? <input type="checkbox" id="shems" value=6> (the "with vowels" rendering will still show the names)
 <div class="smallertext">
     <button id="save" class="brownfill bb">Find Verses</button><p id = "searching"></p>
     <div id="loadbar"></div>
@@ -234,14 +233,16 @@
     <br>
     <div id="vary">
     </div>
-    <div id="artProduct" class = "alignment">
+    <div id="artProduct" class="alignment">
 </div>
 <script type="text/javascript" src="html2canvas.min.js"></script>
 
 <div id="aPButtons" style="text-align: center;"></div>
 <br><br>
 <div id="includePA">
-Want more results? Try including Pirkei Avot: <input type="checkbox" id="1Pirkei Avot" name="Pirkei Avot" value=6><br>
+Check this to exclude God's names from use in acrostics: <input type="checkbox" id="shems"> (the "with vowels" rendering will still show the names) <br>
+Want more results? Check this to search pairs of verses: <input type="checkbox" id="pasukpairs"><br>
+Try including Pirkei Avot: <input type="checkbox" id="1Pirkei Avot" name="Pirkei Avot" value=6><br>
 Pirket Avot verses are too long to render in this webpage itself, so "render" just shows where the relevant letters are.
 </div>
 <script src="NameArt.js"></script>
