@@ -2,17 +2,21 @@
 <html>
 
         <style>
-            .alignment {
-                text-align:center;
-                margin-left: 5%;
-                width: 90%;
-                background-color: white;
-                color: black;
-                font-size: 20px;
+            .alignment div {
+                font-size: 25px;
+                display: flex;
+            }
+            .alignment div span {
+                flex: 1;
+            }
+            .alignment div span:first-of-type {
+                text-align: right;
+                padding-right: 0px;
             }
 
-            .alignment span{min-width: 400px; display: inline-block; text-align: left;}
-            .alignment span:first-child{text-align: right;}
+            .alignment div span:last-of-type {
+                padding-left: 0px;
+            }
             #myProgress {
                 width: 50%;
                 background-color: grey;
@@ -47,7 +51,7 @@
                 z-index: 2; /* Stay on top */
                 margin-top: -10%;
                 margin-left: -5%;
-                height: 19%; /*19.1/19.6 */
+                height: 19.6%; /*19.1/19.6 */
                 width: 100%;
                 padding: 0px 0px;
                 background-color: white;/* #8D715C; */
@@ -63,6 +67,8 @@
                 padding: 0px 0px;
                 background-color: white;/* #8D715C; */
                 overflow-x: hidden; /* Disable horizontal scroll */
+                text-indent: 5%;
+                color: black;
             }
             .main {
                 z-index: 1;
@@ -84,16 +90,16 @@
                 font-size: 16px;
             }
             .accordion {
-                background-color: #8C5500;
+                background-color: #A9690C;
                 color: gold;
                 cursor: pointer;
-                padding: 18px;
+                padding: 10px;
                 border: none;
                 text-align: center;
                 outline: none;
-                font-size: 20px;
+                font-size: 15px;
                 transition: 0.4s;
-                width: 31%;
+                width: 19.5%;
             }
 
             .active, .accordion:hover {
@@ -106,7 +112,7 @@
                 background-color: rgb(194, 112, 18);
                 overflow: hidden;
                 text-align: left;
-                font-size: 20px;
+                font-size: 15px;
             }
             .lacc{
                 display: inline;
@@ -126,6 +132,11 @@
                 float: left;
                 height: auto;
             }
+            .tbox{
+                height: 35px;
+                width: 200px;
+                font-size: 20px;
+            }
         </style>
 
 <head>
@@ -138,36 +149,21 @@
 <div><img src="Testsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="lsidebar"></div>
 <div><img src="Rightsidebar.png" alt="A Sefaria Applet" width="100%" height="100%" class="rsidebar"></div>
 <div class="topbar"></div>
-<div class="lowbar"></div>
+<div class="lowbar">© 2020 Ezra Gordon for <a href="https://www.sefaria.org/?home" target="_blank">Sefaria</a> using the <a href="https://github.com/Sefaria/Sefaria-Project/wiki/API-Documentation" target="_blank">Sefaria API</a>
+</div>
 
 <body class="main">
-    <div class="summary">
-        <p id="SefariaBackground" class="introp">
-            Welcome to the Sefaria Acrostic applet! This was designed for the <a href="https://www.sefaria.org/?home" target="_blank">Sefaria</a> API Contest in the summer of 2020. It uses the <a href="https://github.com/Sefaria/Sefaria-Project/wiki/API-Documentation" target="_blank">Sefaria API</a>
-            to search Tanakh (the Old Testament).
-            <br>
-            <br>
-            The applet's purpose is to find biblical verses that are acrostics for hebrew names. These verses can be used to make personalized Jewish art.
-            For example, the default name to search for is "Leah" and "Benjamin" in hebrew. A piece of wedding artwork for "Leah" and "Ben" is shown to the right.
-            <br>
-            <br>
-            To use the applet, write in the name/names in hebrew in the textbox. If you don't have a hebrew keyboard, you can 
-            go to <a href="https://www.branah.com/hebrew" target="_blank">this website</a>. Then choose which books you want to search.
-            Once you've chosen your names, books, click "Find Verses". <br> <br>
-            The results will appear in a dropdown, and you can mouse over the options to see the full English translation of each result. For any of the results, you can render what
-            the acrostic art could look like. If it doesn't render correctly, try zooming out. You may need to "<i>scroll</i>" down to see the entire acrostic. There are more options at the bottom.
-        </p>
-        <img src="SampleArt.jpg" alt="Sorry, this image couldn't render" width="24%" height="100%" class="sideimage"></img>
-    </div>
-    <div style="clear:both;"></div>
-    <br>
-    <label for="names"><i>Names/Key word:</i></label>
-    <input type="text" id="names" name="names" value ="לאה בנימינ" class="brownfill"><br>
-    <strong>Choose which books to include: </strong> 
+The applet's purpose is to find biblical verses that are acrostics for hebrew names and render them. These verses can be used to make personalized Jewish art.
+<div>If you don't have a hebrew keyboard, you can go to <a href="https://www.branah.com/hebrew" target="_blank">this website</a></div>
 
+<br>
 <div>
+    <label for="names" style="font-size: 30px;">Enter Hebrew Names:</label>
+    <input type="text" id="names" name="names" value ="לאה בנימינ" class="tbox" style="background-color: #A9690C; color: gold;">
+<!--    <br><strong>Choose which books to include: </strong> -->
+
     <div class="lacc">
-        <button class="accordion" id="Include Torah"><input type="checkbox" id="Wholetorah" onclick="checkTorah()"><span>Include Torah (click to expand)</span></input>
+        <button class="accordion" id="Include Torah"><input type="checkbox" id="Wholetorah" onclick="checkTorah()"><span>Search Torah (click to expand)</span></input>
         <div id="tormenu" class="panel">
             <strong>Torah: </strong><input type="checkbox" id="Genesis" name="Genesis" value=50 onclick="recollapse(this.parentElement.parentElement.id)">Genesis</input>
             <input type="checkbox" id="1Exodus" name="Exodus" value=40 onclick="recollapse(this.parentElement.parentElement.id)">Exodus</input>
@@ -177,10 +173,9 @@
         </div>
     </button>
     </div>
-
 <div class="lacc">
     <button class="accordion" id="Include Prophets">
-    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><span>Include Prophets (click to expand)</span></input>
+    <input type="checkbox" id="Wholeproph" onclick="checkProphets()"><span>Search Prophets (click to expand)</span></input>
     <div id="promenu" class="panel">
       <strong>Prophets: </strong> <input type="checkbox" id="1Joshua" name="Joshua" value =24 onclick="recollapse(this.parentElement.parentElement.id)">Joshua</input>
         <input type="checkbox" id="1Judges" name="Judges" value=21 onclick="recollapse(this.parentElement.parentElement.id)">Judges</input>
@@ -207,7 +202,7 @@
 </button>
 </div>
 <div class="lacc">
-    <button class="accordion" id="Include Writings"><input type="checkbox" id="Wholewrit" onclick="checkWritings()"><span>Include Writings (click to expand)</span></input>
+    <button class="accordion" id="Include Writings"><input type="checkbox" id="Wholewrit" onclick="checkWritings()"><span>Search Writings (click to expand)</span></input>
     <div id="writmenu" class="panel">
       <strong>Writings:</strong> <input type="checkbox" id="1Psalms" name="Psalms" value=150 onclick="recollapse(this.parentElement.parentElement.id)">Psalms</input>
         <input type="checkbox" id="1Proverbs" name="Proverbs" value=31 onclick="recollapse(this.parentElement.parentElement.id)">Proverbs</input>
@@ -227,10 +222,8 @@
 </div>
 </div>
 <div class="smallertext">
-    <button id="save" class="brownfill bb">Find Verses</button><p id = "searching"></p>
+    <button id="save" class="brownfill bb">Search Verses</button><p id = "searching"></p>
     <div id="loadbar"></div>
-    <p></p>
-    <br>
     <div id="vary">
     </div>
     <div id="artProduct" class="alignment">
@@ -238,16 +231,22 @@
 <script type="text/javascript" src="html2canvas.min.js"></script>
 
 <div id="aPButtons" style="text-align: center;"></div>
-<br><br>
-<div id="includePA">
+<br><br><br><br><br>
+<div id="includePA" style="bottom: 0px;">
+Advanced Options:<br>
 Check this to exclude God's names from use in acrostics: <input type="checkbox" id="shems"> (the "with vowels" rendering will still show the names) <br>
-Want more results? Check this to search pairs of verses: <input type="checkbox" id="pasukpairs"><br>
+Want more results? Try searching pairs of consecutive verses: <input type="checkbox" id="pasukpairs"><br>
 Try including Pirkei Avot: <input type="checkbox" id="1Pirkei Avot" name="Pirkei Avot" value=6><br>
-Pirket Avot verses are too long to render in this webpage itself, so "render" just shows where the relevant letters are.
 </div>
 <script src="NameArt.js"></script>
 <script src="formatting.js"></script>
 </div>
+
+    <div class="summary">
+        
+    </div>
+    <div style="clear:both;"></div>
+    <br>
     <!--<br>
     <br>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
@@ -262,5 +261,5 @@ Pirket Avot verses are too long to render in this webpage itself, so "render" ju
     </div>
 -->
 </body>
-
+<!--© 2020 Ezra Gordon.-->
 </html>

@@ -5,11 +5,11 @@ for (var i = 0; i < 3; i++) {
     var panel = this.children[2];
     var title = this.children[1]
     if (panel.style.display === "block") {
-        title.innerText = this.id + " (click to expand)"
+        title.innerText = this.id.replace("Include", "Search") + " (click to expand)"
         panel.style.display = "none";
     }
     else {
-        title.innerText = this.id + " (click to compress)"
+        title.innerText = this.id.replace("Include", "Search") + " (click to compress)"
         panel.style.display = "block";
     }
   });
@@ -21,11 +21,11 @@ function recollapse(id){
     var panel = thisacc.children[2];
     var title = thisacc.children[1]
     if (panel.style.display === "block") {
-        title.innerText = thisacc.id + " (click to expand)"
+        title.innerText = thisacc.id.replace("Include", "Search") + " (click to expand)"
         panel.style.display = "none";
     }
     else {
-        title.innerText = thisacc.id + " (click to compress)"
+        title.innerText = thisacc.id.replace("Include", "Search") + " (click to compress)"
         panel.style.display = "block";
     }
 }
@@ -64,7 +64,7 @@ function hebTest2(l2, perek, book, fillVal){
         }
         widthString = document.getElementById("myBar").style.width
         document.getElementById("myBar").style.width = (Number(widthString.substring(0,widthString.length-1))+fillVal) + "%"
-        if (Number(widthString.substring(0,widthString.length-1))+fillVal>99){
+        if (Number(widthString.substring(0,widthString.length-1))+fillVal>99.5){
             setTimeout(() => { resetbar(); }, 500);
         }
     });
@@ -152,7 +152,7 @@ function nameSearch(){
     var fillVal = 100/numbooks
     if (checkPA){
         for (var i = 0; i<6; i++){
-            hebTest(lookup,i+1,"Pirkei Avot", fillVal)
+            hebTest(l2,i+1,"Pirkei Avot", fillVal)
         }
     }
     for (var x=0;x<3;x++){
@@ -181,17 +181,18 @@ function noresults(){
         item.innerHTML = "Sorry, there don't seem to be any results for that search"
     }
     else if (item.children[item.children.length-1].id != "countresults"){
-        item.innerHTML += "<br> <button id = \"noVowel\" onclick = \"fA20()\" class=\"brownfill\">Render Without Vowels</button>"
+        item.innerHTML += "<br> <button id = \"noVowel\" onclick = \"fA20(true)\" class=\"brownfill\">Render Without Vowels</button>"
         item.innerHTML += "<button id = \"Vowel\" onclick = \"fA10()\" class=\"brownfill\">Render With Vowels</button>"
         item.innerHTML += "<button id = \"goSefaria\" button title=\"goverse\" class=\"action primary tocart brownfill\" onclick = \" openLink(); return false;\">Go to this verse on Sefaria</button>"
         var resultCount = item.children[1].children.length
         if (resultCount == 1) {
-            item.innerHTML += "<br> <p id=\"countresults\"> Sorry, there was only one result. I hope it's a good one!</p>"
+            item.innerHTML += "<br> <p id=\"countresults\"> Sorry, there was only one result. I hope it's a good one! Mouse over it to see the full translation.</p>"
+            document.getElementById("versesdropdown").title = document.getElementById("versesdropdown").children[0].title
         }
         if (resultCount > 1){
-            item.innerHTML += "<br> <p id=\"countresults\"> There were a whopping " + String(resultCount) + " results! Yay!</p>"
+            item.innerHTML += "<br> <p id=\"countresults\"> There were a whopping " + String(resultCount) + " results! Yay! Mouse over options in the dropdown to see the full translation.</p>"
         }
-
+        fA20(false)
     }
     document.getElementById("includePA").hidden = false;
     document.getElementById("save").disabled = false;
@@ -255,7 +256,7 @@ function addElement(lookup, book, chapter, verse, eText){
         text = text.substring(0,150) + "..." //Limit the length
     }
     var buttonId = lookup  + "." + book + "." + chapter + "." + verse
-    document.getElementById("versesdropdown").innerHTML += "<option value = \"" + buttonId + "\" title=\"" + eText + "\">" + text + "</option>"
+    document.getElementById("versesdropdown").innerHTML += "<option value = \"" + buttonId + "\" title=\"" + eText + "\">" + text + "</option>" //"3" should be eText
 }
 
 function addElement2(lookup, book, chapter, verse, eText){
@@ -275,11 +276,11 @@ function checkTorah(){
     var panel = document.getElementById('tormenu');
     var title = document.getElementById("Include Torah").children[1]
     if (panel.style.display === "block") {
-        title.textContent = "Include Torah (click to expand)"
+        title.textContent = "Search Torah (click to expand)"
         panel.style.display = "none";
     }
     else {
-        title.textContent = "Include Torah (click to compress)"
+        title.textContent = "Search Torah (click to compress)"
         panel.style.display = "block";
     }
     if (document.getElementById("Wholetorah").checked == true){
@@ -300,11 +301,11 @@ function checkProphets(){
     var panel = document.getElementById('promenu');
     var title = document.getElementById("Include Prophets").children[1]
     if (panel.style.display === "block") {
-        title.textContent = "Include Prophets (click to expand)"
+        title.textContent = "Search Prophets (click to expand)"
         panel.style.display = "none";
     }
     else {
-        title.textContent = "Include Prophets (click to compress)"
+        title.textContent = "Search Prophets (click to compress)"
         panel.style.display = "block";
     }
     if (document.getElementById("Wholeproph").checked == true){
@@ -325,11 +326,11 @@ function checkWritings(){
     var panel = document.getElementById('writmenu');
     var title = document.getElementById("Include Writings").children[1]
     if (panel.style.display === "block") {
-        title.textContent = "Include Writings (click to expand)"
+        title.textContent = "Search Writings (click to expand)"
         panel.style.display = "none";
     }
     else {
-        title.textContent = "Include Writings (click to compress)"
+        title.textContent = "Search Writings (click to compress)"
         panel.style.display = "block";
     }
     if (document.getElementById("Wholewrit").checked == true){
@@ -343,3 +344,4 @@ function checkWritings(){
         }
     }
 }
+//© 2020 Ezra Gordon.
