@@ -267,3 +267,4 @@ function checkWritings(){
         }
     }
 }
+//© 2020 Ezra Gordon.
