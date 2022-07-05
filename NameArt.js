@@ -186,11 +186,11 @@ function noresults(){
         item.innerHTML += "<button id = \"goSefaria\" button title=\"goverse\" class=\"action primary tocart brownfill\" onclick = \" openLink(); return false;\">Go to this verse on Sefaria</button>"
         var resultCount = item.children[1].children.length
         if (resultCount == 1) {
-            item.innerHTML += "<br> <p id=\"countresults\"> Sorry, there was only one result. I hope it's a good one! Mouse over it to see the full translation.</p>"
+            item.innerHTML += "<br> <p id=\"countresults\"> There was  one result. Mouse over it to see the full translation.</p>"
             document.getElementById("versesdropdown").title = document.getElementById("versesdropdown").children[0].title
         }
         if (resultCount > 1){
-            item.innerHTML += "<br> <p id=\"countresults\"> There were a whopping " + String(resultCount) + " results! Yay! Mouse over options in the dropdown to see the full translation.</p>"
+            item.innerHTML += "<br> <p id=\"countresults\"> There were " + String(resultCount) + " results. Mouse over options in the dropdown to see the full translation.</p>"
         }
         fA20(false)
     }
