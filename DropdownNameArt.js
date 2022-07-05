@@ -75,10 +75,10 @@ function noresults(){
         //item.innerHTML += "<button id = \"goSefaria\" button title=\"goverse\" class=\"action primary tocart\" onclick = \" window.open('https://www.sefaria.org/" + url + "', '_blank'); return false;\">Go to this verse on Sefaria</button>"
         var resultCount = item.children[1].children.length
         if (resultCount == 1) {
-            item.innerHTML += "<br> <p id=\"countresults\"> Sorry, there was only one result. I hope it's a good one!</p>"
+            item.innerHTML += "<br> <p id=\"countresults\"> There was one result.</p>"
         }
         if (resultCount > 1){
-            item.innerHTML += "<br> <p id=\"countresults\"> There were a whopping " + String(resultCount) + " results! Yay!</p>"
+            item.innerHTML += "<br> <p id=\"countresults\"> There were  " + String(resultCount) + " results.</p>"
         }
 
     }
